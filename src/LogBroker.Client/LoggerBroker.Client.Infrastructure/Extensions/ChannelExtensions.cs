@@ -1,0 +1,41 @@
+﻿using LogBroker.Client.Core.Interfaces;
+using LogBroker.Client.Infrastructure.Imp;
+using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
+
+namespace LogBroker.Client.Infrastructure.Extensions
+{
+    public static class ChannelExtensions
+    {
+        public static IServiceCollection AddLogBroker(this IServiceCollection services)
+        {
+            var factory = new ConnectionFactory { 
+                HostName = "localhost" ,
+                UserName = "admin" ,
+                Password = "admin",
+                VirtualHost = "MyJira"
+            };
+
+            services.AddScoped<ISender, Sender>();
+
+            services.AddScoped<IChannel>(chn =>
+            {
+                IConnection connection = factory.CreateConnectionAsync().Result;
+
+                var channel = connection.CreateChannelAsync().Result;
+                channel.QueueDeclareAsync(queue: "MYJIRA.LOGGER.ERROR", durable: false, exclusive: false, autoDelete: false,
+                arguments: null);
+
+                channel.QueueDeclareAsync(queue: "MYJIRA.LOGGER.TRACER", durable: false, exclusive: false, autoDelete: false,
+                arguments: null);
+
+                return channel;
+            });
+
+
+            services.AddLogger();
+
+            return services;
+        }
+    }
+}
