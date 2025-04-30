@@ -8,7 +8,7 @@ namespace LogBroker.Client.Infrastructure.Extensions
     {
         public static IServiceCollection AddLogger(this IServiceCollection services)
         {
-            services.AddScoped<ILogger, LogWriter>();
+            services.AddScoped<ILogger, LogSender>();
 
             return services;
         }

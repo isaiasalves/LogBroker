@@ -16,9 +16,8 @@ namespace LogBroker.Client.Infrastructure.Extensions
                 VirtualHost = "MyJira"
             };
 
-            services.AddScoped<ISender, Sender>();
 
-            services.AddScoped<IChannel>(chn =>
+            services.AddScoped(chn =>
             {
                 IConnection connection = factory.CreateConnectionAsync().Result;
 
@@ -33,6 +32,7 @@ namespace LogBroker.Client.Infrastructure.Extensions
             });
 
 
+            services.AddScoped<IBrokerSender, BrokerSender>();
             services.AddLogger();
 
             return services;

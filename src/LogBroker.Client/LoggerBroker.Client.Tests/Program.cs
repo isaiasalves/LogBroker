@@ -15,9 +15,11 @@ namespace LogBroker.Client.Tests
             //services.AddScoped<ISender, Sender>();
 
             var servicesProvider = services.BuildServiceProvider();
-            var sender = servicesProvider.GetRequiredService<ILogger>();
+            var logger = servicesProvider.GetRequiredService<ILogger>();
             
-            sender.LogTrace("Hell o World");
+            logger.LogTrace("Hell o World");
+            logger.LogTrace("Hell o World");
+            logger.LogError("Erouuuu");
             Console.WriteLine("Hello, World!");
         }
     }

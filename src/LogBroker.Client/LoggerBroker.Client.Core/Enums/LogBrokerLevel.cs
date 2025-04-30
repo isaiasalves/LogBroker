@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogBroker.Client.Core.Interfaces
+namespace LogBroker.Client.Core.Enums
 {
-    public interface ISender
+    public enum LogBrokerLevel
     {
-        public void sendMessage(string message);    
+        Trace,
+        Error
     }
 }
