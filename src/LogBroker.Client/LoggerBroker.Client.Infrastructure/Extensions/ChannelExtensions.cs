@@ -22,6 +22,9 @@ namespace LogBroker.Client.Infrastructure.Extensions
                 IConnection connection = factory.CreateConnectionAsync().Result;
 
                 var channel = connection.CreateChannelAsync().Result;
+
+                channel.ExchangeDeclareAsync(exchange: "MYJIRA.LOGGER", type: ExchangeType.Direct, durable: false, autoDelete: false, arguments: null);
+                
                 channel.QueueDeclareAsync(queue: "MYJIRA.LOGGER.ERROR", durable: false, exclusive: false, autoDelete: false,
                 arguments: null);
 
@@ -38,4 +41,7 @@ namespace LogBroker.Client.Infrastructure.Extensions
             return services;
         }
     }
+
+    //TODO: Implementar logs via Event Viewer ou outra forma, visto que se o Client falhar, não será possível enviar mensagens para o Broker
+    //TODO: Carregar parâmetros como nome de fila, usuário, senha, e outras configurações  a partir do appsettings.json
 }

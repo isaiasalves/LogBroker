@@ -16,11 +16,64 @@ namespace LogBroker.Client.Tests
 
             var servicesProvider = services.BuildServiceProvider();
             var logger = servicesProvider.GetRequiredService<ILogger>();
-            
+
             logger.LogTrace("Hell o World");
             logger.LogTrace("Hell o World");
             logger.LogError("Erouuuu");
             Console.WriteLine("Hello, World!");
+
+
+
+
+
+            //}
+            //static void Main(string[] args)
+            //{
+            //    var services = new ServiceCollection();
+
+            //    services.AddSingleton<IDataBaseAccess, DataBaseAccess>();
+
+            //    services.AddScoped<IIPNFixResourceAccess>((provider) => 
+            //    {
+            //        var dataaccess = provider.GetService<IDataBaseAccess>();
+            //        return new IPNFixResourceAccess(dataaccess!);
+            //    });
+
+            //    services.AddSingleton<IIPNProcessamentoFix>((provider) => 
+            //    {
+            //        var ipnFixResourceAcces = provider.GetService<IIPNFixResourceAccess>();
+            //        return new IPNProcessamentoFix(ipnFixResourceAcces!);
+            //    });
+
+
+
+
+
+            //    services.AddSingleton<IClassA>((provider) => 
+            //    {
+            //        var ipnProcessamentoFix = provider.GetService<IIPNProcessamentoFix>();
+            //        return new ClassA(ipnProcessamentoFix!);            
+            //    });
+
+            //    services.AddSingleton<IClassB>((provider) =>
+            //    {
+            //        var ipnProcessamentoFix = provider.GetService<IIPNProcessamentoFix>();
+            //        return new ClassB(ipnProcessamentoFix!);
+            //    });
+
+
+            //    var servicesProvider = services.BuildServiceProvider();
+            //    var classA = servicesProvider.GetRequiredService<IClassA>();
+            //    var classB = servicesProvider.GetRequiredService<IClassA>();
+
+
+            //    classA.Processa();
+            //    classB.Processa();
+
+
+            //    Console.WriteLine("Hello, World!");
+
+
+            }
         }
-    }
 }
