@@ -1,10 +1,11 @@
 ﻿using RabbitMQ.Client;
+using LogBroker.Server.Worker.Entities;
 
 namespace LogBroker.Server.Worker.Extensions
 {
     public static class MessageBrokerConnectionExtension
     {
-        public static async Task<IServiceCollection> AddLogBroker(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddLogBroker(this IServiceCollection services, IConfiguration configuration)
         {
             ArgumentNullException.ThrowIfNull(services);
 
@@ -26,10 +27,34 @@ namespace LogBroker.Server.Worker.Extensions
             }
             catch (Exception)
             {
-                await Task.Delay(1000); // Espera 1 segundo antes de tentar novamente
+                throw;
             }
 
+            services.LoadConfiguration(configuration);
+
             return services;
+        }
+
+        private static void LoadConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            //var queues = new List<LogQueue>();
+            //configuration.GetSection("RabbitMq:LogQueue").Bind(queues);
+
+            //if (queues is not null && queues.Any())
+            //    services.AddSingleton(queues);
+            //else
+            //    throw new ArgumentNullException(nameof(queues), "Nenhuma fila configurada no appsettings.json");
+
+
+
+            services.AddOptions<LogQueue>()
+            .Bind(configuration.GetSection("RabbitMq:LogQueue"))
+            .Validate(q => !string.IsNullOrWhiteSpace(q.Name), "Queue name is required")
+            .ValidateOnStart(); // Ensures validation happens on app startup
+
+
+            //services.Configure<List<LogQueue>>(
+            //    configuration.GetSection("RabbitMq:Queue"));
         }
     }
 
